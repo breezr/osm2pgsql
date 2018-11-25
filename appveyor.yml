@@ -54,7 +54,7 @@ install:
   - conda config --set always_yes yes
   - conda create --name osm2pgsql
   - activate osm2pgsql
-  - conda install vs2015_win-64-14.0.25123 bzip2=%BZIP2_VER% expat=%EXPAT_VER% proj4=%PROJ4_VER% zlib=%ZLIB_VER% postgresql=%POSTGRESQL_VER%
+  - conda install vc=14 bzip2=%BZIP2_VER% expat=%EXPAT_VER% proj4=%PROJ4_VER% zlib=%ZLIB_VER% postgresql=%POSTGRESQL_VER%
   - ps: if (!(Test-Path "C:\lua_$env:arch.zip")){(new-object net.webclient).DownloadFile($env:lua_url, "C:\lua_$env:arch.zip")}
   - 7z x -y C:\lua_%arch%.zip -oC:\lua
   - ps: if (!(Test-Path "C:\postgis.zip")){(new-object net.webclient).DownloadFile($env:POSTGIS_URL, "C:\postgis.zip")}
