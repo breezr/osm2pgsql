@@ -51,6 +51,7 @@ install:
   - set PATH=%TESTS_POSTGRESQL_ROOt%\bin;%PATH%;%conda_path%
   - cd c:\
   - conda config --set always_yes yes
+  - conda update -q conda
   - conda create --name osm2pgsql
   - activate osm2pgsql
   - conda install bzip2=%BZIP2_VER% expat=%EXPAT_VER% proj4=%PROJ4_VER% zlib=%ZLIB_VER% postgresql=%POSTGRESQL_VER%
