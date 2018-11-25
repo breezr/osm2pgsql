@@ -79,7 +79,7 @@ void assert_equal(uint64_t actual, uint64_t expected) {
 
 int main(int argc, char *argv[]) {
 
-  std::string inputfile = "tests/test_multipolygon.osm.gz";
+  std::string inputfile = "tests/test_multipolygon.osm.bz2";
 
   options_t options;
   std::shared_ptr<reprojection> projection(reprojection::create_projection(PROJ_SPHERE_MERC));
