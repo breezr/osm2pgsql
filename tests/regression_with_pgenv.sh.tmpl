@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+#
+# Script for running regression tests under pg_virtualenv.
+
+cd ${osm2pgsql_SOURCE_DIR}
+
+TBLDIR=`mktemp -d`
+
+chmod 777 $TBLDIR
+
+psql -c "CREATE TABLESPACE tablespacetest LOCATION '$TBLDIR'" postgres
+
+${PYTHON_EXECUTABLE} ./tests/regression-test.py -f tests/liechtenstein-2013-08-03.osm.pbf -x ${PROJECT_BINARY_DIR}/osm2pgsql "$@"
+
+rm -rf $TBLDIR

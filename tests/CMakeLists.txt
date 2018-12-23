@@ -72,8 +72,16 @@ endif()
 find_package(PythonInterp)
 
 if (PYTHONINTERP_FOUND)
-  add_test(NAME regression-test-pbf COMMAND ${PYTHON_EXECUTABLE} tests/regression-test.py -f tests/liechtenstein-2013-08-03.osm.pbf -x $<TARGET_FILE:osm2pgsql>
+  if (WIN32)
+    # No idea how to run pg_virtualenv on Windows, so just use an existing DB.
+    add_test(NAME regression-test-pbf COMMAND ${PYTHON_EXECUTABLE} tests/regression-test.py -f tests/liechtenstein-2013-08-03.osm.pbf -x $<TARGET_FILE:osm2pgsql>
     WORKING_DIRECTORY ${osm2pgsql_SOURCE_DIR})
+  else ()
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/regression_with_pgenv.sh.tmpl
+                   ${CMAKE_CURRENT_BINARY_DIR}/regression_with_pgenv.sh)
+    add_test(NAME regression-test-pbf
+             COMMAND pg_virtualenv ./regression_with_pgenv.sh)
+  endif ()
   set_tests_properties(regression-test-pbf PROPERTIES TIMEOUT ${TESTING_TIMEOUT})
   set_tests_properties(regression-test-pbf
       PROPERTIES ENVIRONMENT "HAVE_LUA=${LUA_FOUND}")
