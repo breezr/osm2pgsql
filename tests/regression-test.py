@@ -542,26 +542,10 @@ def setupDB():
             print "Failed to create directory for tablespace" + str(e)
 
         # Check for postgis
-        try:
-            test_cur.execute("""CREATE EXTENSION postgis;""")
-        except:
-            test_conn.rollback()
-
-            pgis = findContribSql('postgis.sql')
-            pgscript = open(pgis).read()
-            test_cur.execute(pgscript)
-
-            srs = findContribSql('spatial_ref_sys.sql')
-            pgscript = open(srs).read()
-            test_cur.execute(pgscript)
+        test_cur.execute("""CREATE EXTENSION postgis;""")
 
         # Check for hstore support
-        try:
-            test_cur.execute("""CREATE EXTENSION hstore;""")
-        except Exception as e:
-            hst = findContribSql('hstore.sql')
-            pgscript = open(hst).read()
-            test_cur.execute(pgscript)
+        test_cur.execute("""CREATE EXTENSION hstore;""")
 
     finally:
         test_cur.close()
