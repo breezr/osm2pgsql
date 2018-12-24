@@ -97,12 +97,9 @@ matrix:
 
 
 before_install:
-  - sudo mkdir -p /extra/pg/tablespacetest   # for the database test
-  - sudo chown postgres:postgres /extra/pg/tablespacetest
   - dpkg -l | grep -E 'lua|proj|xml|bz2|postgis|zlib|boost|expat'  # checking available versions
 before_script:
   - psql -U postgres -c "SELECT version()"
-  - psql -U postgres -c "CREATE TABLESPACE tablespacetest LOCATION '/extra/pg/tablespacetest'"
   - psql -U postgres -c "CREATE EXTENSION postgis"
   - psql -U postgres -c "CREATE EXTENSION hstore"
   - psql -U postgres -c "SELECT PostGIS_Full_Version()"
