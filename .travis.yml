@@ -108,8 +108,9 @@ before_script:
   - proj | head -n1
   - lua -v
 script:
+  - export PG_VERSION=`psql -U postgres -t -c "SELECT version()" | head -n 1 |  cut -d ' ' -f 3 | cut -d . -f 1-2`
   - mkdir build && cd build
-  - cmake .. -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Debug -DWITH_LUAJIT=$LUAJIT_OPTION
+  - cmake .. -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Debug -DPG_VIRTUALENV_OPTIONS="-v $PG_VERSION"  -DWITH_LUAJIT=$LUAJIT_OPTION
   - make -j2
   - echo "Running tests ... "
   - if [[ $RUNTEST ]]; then ctest -VV $RUNTEST; fi

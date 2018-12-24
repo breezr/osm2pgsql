@@ -56,6 +56,9 @@ set(TEST_NODB
  test-wildcard-match
 )
 
+set(PG_VIRTUALENV_OPTIONS "" CACHE STRING
+    "Additional options to pass to pg_virtualenv when running regression tests")
+
 foreach (test ${TEST_NODB})
   set_property(TEST ${test} PROPERTY LABELS NoDB)
 endforeach()
@@ -79,8 +82,9 @@ if (PYTHONINTERP_FOUND)
   else ()
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/regression_with_pgenv.sh.tmpl
                    ${CMAKE_CURRENT_BINARY_DIR}/regression_with_pgenv.sh)
+    separate_arguments(pgargs UNIX_COMMAND ${PG_VIRTUALENV_OPTIONS})
     add_test(NAME regression-test-pbf
-             COMMAND pg_virtualenv ./regression_with_pgenv.sh)
+             COMMAND pg_virtualenv ${pgargs} ./regression_with_pgenv.sh)
   endif ()
   set_tests_properties(regression-test-pbf PROPERTIES TIMEOUT ${TESTING_TIMEOUT})
   set_tests_properties(regression-test-pbf
